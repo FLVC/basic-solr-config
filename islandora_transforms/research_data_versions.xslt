@@ -6,7 +6,7 @@
   xmlns:encoder="xalan://java.net.URLEncoder"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:java="http://xml.apache.org/xalan/java"
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" exclude-result-prefixes="rdf">
-  <xsl:import href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/RELS-EXT_to_solr.xslt"/>
+  <xsl:import href="/usr/local/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/RELS-EXT_to_solr.xslt"/>
 
   <xsl:variable name="research_data_version_flag_name">mmv_is_latest_b</xsl:variable>
   <xsl:variable name="research_data_membership_field">RELS_EXT_isMemberOf_uri_ms</xsl:variable>
