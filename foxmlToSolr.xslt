@@ -110,6 +110,7 @@
   <xsl:include href="/usr/local/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/FOXML_properties_to_solr.xslt"/>
   <xsl:include href="/usr/local/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/datastream_info_to_solr.xslt"/>
   <!--<xsl:include href="/usr/local/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/MODS_to_solr.xslt"/>-->
+  <xsl:include href="/usr/local/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/MODS_to_sort.xslt"/>
   <xsl:include href="/usr/local/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/slurp_all_MODS_to_solr.xslt"/>
   <xsl:include href="/usr/local/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/slurp_all_ead_to_solr.xslt"/>
   <xsl:include href="/usr/local/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/EACCPF_to_solr.xslt"/>
@@ -243,6 +244,11 @@
             <xsl:apply-templates select="foxml:datastreamVersion[last()]">
               <xsl:with-param name="content" select="foxml:datastreamVersion[last()]/foxml:xmlContent"/>
             </xsl:apply-templates>
+            <xsl:if test="@ID='MODS'">
+                <xsl:apply-templates select="foxml:datastreamVersion[last()]" mode="sort">
+                <xsl:with-param name="content" select="foxml:datastreamVersion[last()]/foxml:xmlContent"/>
+                </xsl:apply-templates>
+            </xsl:if> 
           </xsl:when>
           <xsl:when test="@CONTROL_GROUP='M' and foxml:datastreamVersion[last()][@MIMETYPE='text/xml' or @MIMETYPE='application/xml' or @MIMETYPE='application/rdf+xml' or @MIMETYPE='text/html' or @MIMETYPE='chemical/x-cml']">
             <!-- TODO: should do something about mime type filtering
@@ -253,6 +259,11 @@
             <xsl:apply-templates select="foxml:datastreamVersion[last()]">
               <xsl:with-param name="content" select="document(concat($PROT, '://', encoder:encode($FEDORAUSER), ':', encoder:encode($FEDORAPASS), '@', $HOST, ':', $PORT, '/fedora/objects/', $PID, '/datastreams/', @ID, '/content'))"/>
             </xsl:apply-templates>
+            <xsl:if test="@ID='MODS'">
+                <xsl:apply-templates select="foxml:datastreamVersion[last()]" mode="sort">
+                <xsl:with-param name="content" select="document(concat($PROT, '://', encoder:encode($FEDORAUSER), ':', encoder:encode($FEDORAPASS), '@', $HOST, ':', $PORT, '/fedora/objects/', $PID, '/datastreams/', @ID, '/content'))"/>
+                </xsl:apply-templates>
+            </xsl:if>
           </xsl:when>
           <!-- JSON to document objects -->
           <xsl:when test="@CONTROL_GROUP='M' and foxml:datastreamVersion[last() and @MIMETYPE='application/json']">
